@@ -1,5 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
+const userController = require("../controllers/userController");
+const User = require("../models/userModel");
 
 const {
   GOOGLE_CLIENT_ID,
@@ -43,12 +45,12 @@ const verifyGoogleToken = async (token) => {
   }
 };
 
-const login = catchAsync(async (req, res) => {
+const login = catchAsync(async (req, res, next) => {
   const { code } = req.body;
-
   if (!code) return next(new AppError(`Missing "code" in request body`, 400));
 
   const { tokens } = await client.getToken(code);
+  console.log(tokens);
   const { id_token: idToken } = tokens;
 
   if (!idToken) return next(new AppError("Unauthorized", 401));
@@ -57,10 +59,21 @@ const login = catchAsync(async (req, res) => {
 
   const profile = verification.payload;
 
-  console.log({ profile });
+  console.log("profile:", { profile });
 
   // TODO: Create USER if user does not exist or else get existing user
   let user;
+  const { email, given_name: firstName, family_name: lastName } = profile;
+  user = await User.find({ email });
+  if (user == []) {
+    user = {
+      email,
+      name: `${firstName} ${lastName}`,
+    };
+    req.body = user;
+    userController.createUser();
+  }
+  console.log("user:", user);
 
   // sign and set JWT with email and role
   const token = signToken({ email: user.email, role: user.role });

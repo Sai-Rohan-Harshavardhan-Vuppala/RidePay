@@ -12,7 +12,7 @@ const globalErrorHandler = require("./controllers/errorController");
 const requestLogger = require("./utils/requestLogger");
 
 const authRouter = require("./routers/authRouter");
-const adminRouter = require("./routes/adminRoutes");
+const vehicleRouter = require("./routes/vehicleRoutes");
 
 const app = express();
 
@@ -46,7 +46,7 @@ app.use(requestLogger);
 
 // 3) ROUTES
 // app.use("/", viewRouter);
-app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/vehicle", vehicleRouter);
 app.use("/api/v1/auth", authRouter);
 
 app.all("*", (req, res, next) => {
