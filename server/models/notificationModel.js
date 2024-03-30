@@ -7,5 +7,5 @@ const notificationSchema = new mongoose.Schema({
   },
   link: { type: String },
 });
-const Notification = mongoose.model("Notification", notificationSchema, collection);
+const Notification = mongoose.model("Notification", notificationSchema);
 module.exports = Notification;

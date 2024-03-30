@@ -20,6 +20,7 @@ import {
   PersonOutline,
 } from "@mui/icons-material";
 import { Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import io from "socket.io-client";
 
 const navList = [
   {
@@ -134,9 +135,38 @@ const NavMenu = () => {
 };
 
 const Wrapper = () => {
-  const navigate = useNavigate();
-
   const { user, loading, updateUser, logout } = useUserContext();
+
+  useEffect(() => {
+    // Connect to the socket server on component mount
+    if (user) {
+      // console.log(user._id)
+      var socket = io(
+        "http://localhost:3000",
+        { transports: ["websocket"] ,
+        
+          query: {
+            userId: user._id,
+          },
+        },
+      );
+
+      socket.connect();
+
+      // Listen for 'notification' events from the server
+      socket.on("notification", (data) => {
+        console.log("Notification received:", data);
+        // Alert the notification message
+        alert(`Notification received: ${data.message}`);
+      });
+
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [user]);
+
+  const navigate = useNavigate();
 
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
