@@ -13,13 +13,13 @@ const theme = createTheme({
         root: {
           fontSize: "1rem",
           borderRadius: "5rem",
-          backgroundColor: "#9BB0C1",
+          backgroundColor: "#387ADF",
           color: "white",
           fill: "white",
           textTransform: "none",
           fontFamily: "Open Sans",
           "&:hover": {
-            backgroundColor: "#51829B",
+            backgroundColor: "#333A73",
             boxShadow:
               "0 0px 16px 0 rgba(0,0,0,0.2),\
               0 4px 10px 0 rgba(0,0,0,0.19)",
@@ -74,6 +74,26 @@ const theme = createTheme({
             color: "#C69C6D", // Placeholder text color
           },
           color: "inherit", // Ensures the text color is inherited from the root
+        },
+      },
+    },
+
+    MuiMenu: {
+      styleOverrides: {
+        list: {
+          paddingTop: 0, // Remove top padding
+          paddingBottom: 0, // Remove bottom padding
+        },
+      },
+    },
+    // Customizing MenuItem
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          fontSize: "0.875rem", // Reduce font size
+          paddingTop: "4px", // Add top padding to each menu item
+          paddingBottom: "4px", // Add bottom padding to each menu item
+          // Adjust left and right padding as needed
         },
       },
     },

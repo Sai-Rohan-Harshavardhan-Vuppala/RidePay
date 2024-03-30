@@ -13,6 +13,7 @@ const requestLogger = require("./utils/requestLogger");
 
 const authRouter = require("./routes/authRoutes");
 const vehicleRouter = require("./routes/vehicleRoutes");
+const paymentRouter = require("./routes/paymentRoutes");
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use(requestLogger);
 // app.use("/", viewRouter);
 app.use("/api/v1/vehicle", vehicleRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/payment", paymentRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

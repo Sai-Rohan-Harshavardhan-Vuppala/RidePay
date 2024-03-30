@@ -22,11 +22,15 @@ export const UserProvider = ({ children }) => {
       axios
         .post(USER_LOGIN_ROUTE, { code }, { withCredentials: true })
         .then((res) => {
-          setUser(res.data.user);
+          updateUser(res.data.user);
         })
         .catch((err) => {
           console.log({ err });
+          updateUser(null);
         });
+    },
+    onNonOAuthError: () => {
+      updateLoading(false);
     },
     onError: () => {
       updateLoading(false);

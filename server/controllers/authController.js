@@ -89,14 +89,14 @@ const login = catchAsync(async (req, res, next) => {
   res.cookie("jwt", token, {
     expires: new Date(Date.now() + JWT_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    // secure: true,
+    secure: process.env.NODE_ENV === "production",
   });
 
   res.status(200).json({ message: "Login successful!", user });
 });
 
 const logout = catchAsync(async (req, res) => {
-  res.cookie("auth_token", "", {
+  res.cookie("jwt", "", {
     expires: new Date(0),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -117,7 +117,14 @@ const isLoggedIn = catchAsync(async (req, res, next) => {
     console.log({ decoded });
 
     if (!decoded.email) throw "invalid";
-    req.user = decoded;
+
+    const user = await User.findOne({ email: decoded.email });
+
+    console.log({ user });
+
+    if (!user) throw "invalid";
+
+    req.user = user;
     next();
   } catch (err) {
     return next(new AppError("Unauthorized! Token is invalid or expired.", 401));
@@ -125,9 +132,7 @@ const isLoggedIn = catchAsync(async (req, res, next) => {
 });
 
 const getLoginStatus = catchAsync(async (req, res, next) => {
-  const user = await User.findOne({ email: req.user.email });
-
-  res.send(user);
+  res.send(req.user);
 });
 
 module.exports = { logout, isLoggedIn, getLoginStatus, login };
