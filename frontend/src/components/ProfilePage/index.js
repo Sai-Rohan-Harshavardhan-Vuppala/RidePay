@@ -53,6 +53,8 @@ function EditDialog({ onClose, open, updateProfile, user }) {
       })
       .then((res) => {
         console.log({ res });
+        updateProfile(res.data.user);
+        onClose();
       })
       .catch((err) => {
         console.log({ err });
@@ -188,7 +190,7 @@ const ProfilePage = () => {
         <EditDialog
           onClose={() => setEdit(false)}
           open={edit}
-          updateProfile={() => updateUser()}
+          updateProfile={updateUser}
           user={user}
         />
       </div>
