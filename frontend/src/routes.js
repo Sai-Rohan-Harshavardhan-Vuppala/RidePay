@@ -1,8 +1,8 @@
 import Wrapper from "./components/Wrapper";
-import LoginPage from "./components/LoginPage";
+import HomePage from "./components/HomePage";
 
 const routes = [
-  { path: "/", element: <Wrapper />, children: [{ path: "/", element: <LoginPage /> }] },
+  { path: "/", element: <Wrapper />, children: [{ path: "/", element: <HomePage /> }] },
 ];
 
 export default routes;

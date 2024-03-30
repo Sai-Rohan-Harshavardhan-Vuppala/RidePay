@@ -11,7 +11,7 @@ const AppError = require("./utils/AppError");
 const globalErrorHandler = require("./controllers/errorController");
 const requestLogger = require("./utils/requestLogger");
 
-const authRouter = require("./routers/authRouter");
+const authRouter = require("./routes/authRoutes");
 const vehicleRouter = require("./routes/vehicleRoutes");
 
 const app = express();

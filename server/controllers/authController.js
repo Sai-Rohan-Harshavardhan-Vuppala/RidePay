@@ -45,12 +45,18 @@ const verifyGoogleToken = async (token) => {
   }
 };
 
+const signToken = (email) => {
+  console.log("token with ", email);
+  return jwt.sign({ email }, JWT_SECRET, {
+    expiresIn: `${JWT_EXPIRES_IN_DAYS}d`,
+  });
+};
+
 const login = catchAsync(async (req, res, next) => {
   const { code } = req.body;
   if (!code) return next(new AppError(`Missing "code" in request body`, 400));
 
   const { tokens } = await client.getToken(code);
-  console.log(tokens);
   const { id_token: idToken } = tokens;
 
   if (!idToken) return next(new AppError("Unauthorized", 401));
@@ -59,30 +65,31 @@ const login = catchAsync(async (req, res, next) => {
 
   const profile = verification.payload;
 
-  console.log("profile:", { profile });
-
-  // TODO: Create USER if user does not exist or else get existing user
   let user;
   const { email, given_name: firstName, family_name: lastName } = profile;
-  user = await User.find({ email });
-  if (user == []) {
+  user = await User.findOne({ email });
+
+  console.log({ user });
+
+  if (!user) {
     user = {
       email,
       name: `${firstName} ${lastName}`,
     };
-    req.body = user;
-    userController.createUser();
+
+    user = await User.create(user);
+    console.log("New User created! ✅");
   }
-  console.log("user:", user);
+
+  console.log({ user });
 
   // sign and set JWT with email and role
-  const token = signToken({ email: user.email, role: user.role });
+  const token = signToken(user.email);
 
   res.cookie("jwt", token, {
     expires: new Date(Date.now() + JWT_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000),
     httpOnly: true,
     // secure: true,
-    sameSite: "none",
   });
 
   res.status(200).json({ message: "Login successful!", user });
@@ -99,8 +106,7 @@ const logout = catchAsync(async (req, res) => {
 });
 
 const isLoggedIn = catchAsync(async (req, res, next) => {
-  const token = req.cookies.auth_token;
-  console.log({ cookies: req.cookies });
+  const token = req.cookies.jwt;
 
   if (!token) {
     return next(new AppError("No token provided.", 403));
@@ -108,6 +114,9 @@ const isLoggedIn = catchAsync(async (req, res, next) => {
 
   try {
     const decoded = await verifyJwt(token, JWT_SECRET);
+    console.log({ decoded });
+
+    if (!decoded.email) throw "invalid";
     req.user = decoded;
     next();
   } catch (err) {
@@ -115,8 +124,10 @@ const isLoggedIn = catchAsync(async (req, res, next) => {
   }
 });
 
-const getLoginStatus = (req, res) => {
-  res.send(req.user);
-};
+const getLoginStatus = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ email: req.user.email });
+
+  res.send(user);
+});
 
 module.exports = { logout, isLoggedIn, getLoginStatus, login };

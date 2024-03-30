@@ -9,10 +9,15 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const updateUser = (userData) => setUser(userData);
+  const updateUser = (userData) => {
+    setUser(userData);
+    updateLoading(false);
+  };
+  const updateLoading = (loadingStatus) => setLoading(loadingStatus);
 
-  const login = useGoogleLogin({
+  const handleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
       axios
         .post(USER_LOGIN_ROUTE, { code }, { withCredentials: true })
@@ -23,16 +28,19 @@ export const UserProvider = ({ children }) => {
           console.log({ err });
         });
     },
+    onError: () => {
+      updateLoading(false);
+    },
     flow: "auth-code",
   });
 
-  const logout = () => {
+  const handleLogout = () => {
     axios
       .post(USER_LOGOUT_ROUTE, null, { withCredentials: true })
       .then((res) => {
         console.log(res);
 
-        setUser(null);
+        updateUser(null);
       })
       .catch((err) => {
         console.log({ err });
@@ -42,8 +50,20 @@ export const UserProvider = ({ children }) => {
       });
   };
 
+  const login = () => {
+    updateLoading(true);
+    handleLogin();
+  };
+
+  const logout = () => {
+    updateLoading(true);
+    handleLogout();
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser, login, logout, updateUser }}>
+    <UserContext.Provider
+      value={{ user, setUser, login, logout, updateUser, loading, updateLoading }}
+    >
       {children}
     </UserContext.Provider>
   );

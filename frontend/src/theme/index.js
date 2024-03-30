@@ -15,11 +15,11 @@ const theme = createTheme({
           borderRadius: "5rem",
           backgroundColor: "#9BB0C1",
           color: "white",
+          fill: "white",
           textTransform: "none",
           fontFamily: "Open Sans",
           "&:hover": {
             backgroundColor: "#51829B",
-            color: "#EADFB4",
             boxShadow:
               "0 0px 16px 0 rgba(0,0,0,0.2),\
               0 4px 10px 0 rgba(0,0,0,0.19)",
