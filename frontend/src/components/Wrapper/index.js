@@ -15,6 +15,10 @@ import logo from "../../assets/images/logo.png";
 import {
   AccountBalanceWalletOutlined,
   AccountBalanceWalletRounded,
+  AddLocationOutlined,
+  AddLocationRounded,
+  AirportShuttleOutlined,
+  AirportShuttleRounded,
   DepartureBoardOutlined,
   DepartureBoardRounded,
   ExitToApp,
@@ -29,7 +33,7 @@ import {
 import { Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import io from "socket.io-client";
 
-const navList = [
+const generalNavList = [
   {
     icon: HomeOutlined,
     hoverIcon: HomeRounded,
@@ -50,6 +54,44 @@ const navList = [
     color: "blue",
     link: "/wallet",
     label: "Wallet",
+  },
+  {
+    icon: PersonOutline,
+    hoverIcon: Person,
+    color: "blue",
+    link: "/profile",
+    label: "Profile",
+  },
+];
+
+const adminNavList = [
+  {
+    icon: HomeOutlined,
+    hoverIcon: HomeRounded,
+    color: "blue",
+    link: "/",
+    label: "Home",
+  },
+  {
+    icon: DepartureBoardOutlined,
+    hoverIcon: DepartureBoardRounded,
+    color: "blue",
+    link: "/schedule",
+    label: "Transport Schedule",
+  },
+  {
+    icon: AddLocationOutlined,
+    hoverIcon: AddLocationRounded,
+    color: "blue",
+    link: "/stops",
+    label: "Stops",
+  },
+  {
+    icon: AirportShuttleOutlined,
+    hoverIcon: AirportShuttleRounded,
+    color: "blue",
+    link: "/vehicles",
+    label: "Vehicles",
   },
   {
     icon: PersonOutline,
@@ -246,7 +288,7 @@ const NavElement = ({ item }) => {
   );
 };
 
-const NavMenu = () => {
+const NavMenu = ({ navList }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -308,9 +350,19 @@ const Wrapper = () => {
 
   if (!user) return <LoginPage />;
 
+  const navList = user.role === "admin" ? adminNavList : generalNavList;
+
   if (isMd)
     return (
-      <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          height: "100vh",
+          overflow: "hidden",
+        }}
+      >
         <nav
           style={{
             height: "100vh",
@@ -341,7 +393,14 @@ const Wrapper = () => {
         </nav>
 
         <div
-          style={{ overflow: "auto", boxSizing: "border-box", padding: "2rem", flex: 1 }}
+          style={{
+            overflow: "auto",
+            padding: "2rem",
+            width: "calc(100vw - 7rem)",
+            height: "calc(100vh - 4rem)",
+            flex: 1,
+            minHeight: 0,
+          }}
         >
           <Outlet />
         </div>
@@ -349,7 +408,14 @@ const Wrapper = () => {
     );
 
   return (
-    <div style={{ dispaly: "flex", flexDirection: "column", height: "100vh" }}>
+    <div
+      style={{
+        dispaly: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
       <nav
         style={{
           height: "4rem",
@@ -365,7 +431,7 @@ const Wrapper = () => {
           <img src={logo} alt="Zui Logo" style={{ height: "100%" }} />
         </div>
 
-        <NavMenu />
+        <NavMenu navList={navList} />
 
         {/* <div style={{ marginTop: "2rem", flex: 1 }}>
           {navList.map((el, index) => (

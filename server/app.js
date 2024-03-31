@@ -51,6 +51,7 @@ app.use(xss());
 app.use(compression());
 
 app.use(requestLogger);
+
 // 3) ROUTES
 // app.use("/", viewRouter);
 app.use("/api/v1/userNotification", userNotificationRouter);

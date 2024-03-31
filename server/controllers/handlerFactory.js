@@ -39,7 +39,7 @@ exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     // console.log(req);
     const doc = await Model.create(req.body);
-    console.log("success")
+    console.log("success");
     res.status(201).json({
       status: "success",
       data: {
@@ -81,11 +81,5 @@ exports.getAll = (Model) =>
     const doc = await features.query;
 
     // SEND RESPONSE
-    res.status(200).json({
-      status: "success",
-      results: doc.length,
-      data: {
-        data: doc,
-      },
-    });
+    res.status(200).json(doc);
   });

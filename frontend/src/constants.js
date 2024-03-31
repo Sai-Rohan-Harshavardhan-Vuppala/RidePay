@@ -10,6 +10,7 @@ const STOP_ROUTE = `${BASE_URL}/api/v1/stop/`;
 const USER_UPDATE_ROUTE = `${BASE_URL}/api/v1/user`;
 const PAYMENT_LINK_ROUTE = `${BASE_URL}/api/v1/payment/link`;
 const GET_ALL_TRANSACTIONS_ROUTE = `${BASE_URL}/api/v1/transactions`;
+const GET_ALL_VEHICLES = `${BASE_URL}/api/v1/vehicle`;
 
 export {
   CLIENT_ID,
@@ -22,4 +23,5 @@ export {
   USER_UPDATE_ROUTE,
   PAYMENT_LINK_ROUTE,
   GET_ALL_TRANSACTIONS_ROUTE,
+  GET_ALL_VEHICLES,
 };

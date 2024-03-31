@@ -14,6 +14,11 @@ import {
   alpha,
   Checkbox,
   FormControlLabel,
+  IconButton,
+  TextField,
+  Dialog,
+  DialogContent,
+  DialogTitle,
 } from "@mui/material";
 import axios from "axios";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
@@ -22,6 +27,7 @@ import addIconImage from "../../assets/images/add_image.png";
 import "./index.css";
 import { STOP_ROUTE } from "../../constants.js";
 import defaultImage from "../../assets/images/stop.jpg";
+import { AddRounded, PlaceRounded } from "@mui/icons-material";
 
 const style = {
   position: "absolute",
@@ -150,18 +156,22 @@ const StopsPage = () => {
   const handleClose = () => {
     setOpenModal(false);
   };
-  useEffect(() => {
-    // api call to get stops data
+
+  const getAllStops = () => {
     axios
       .get(STOP_ROUTE, { withCredentials: true })
       .then((res) => {
         console.log({ res });
-        setStops(res.data.data.data);
+        setStops(res.data);
         setLoading(false);
       })
       .catch((err) => {
         console.log({ err });
       });
+  };
+
+  useEffect(() => {
+    getAllStops();
   }, []);
 
   if (loading) {
@@ -170,8 +180,8 @@ const StopsPage = () => {
       <div
         style={{
           display: "flex",
-          width: "100vw",
-          height: "100vh",
+          width: "100%",
+          height: "100%",
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -180,14 +190,14 @@ const StopsPage = () => {
       </div>
     );
   }
-  console.log(stops.length);
+
   const stopsContent = stops.map((stop, index) => {
     // console.log(stop);
     const imageUrl =
       stop.hasOwnProperty("imageUrl") && stop.imageUrl !== null && stop.imageUrl != ""
         ? stop.imageUrl
         : null;
-    console.log(imageUrl);
+
     const title = stop.name;
     const content = (
       <Stack
@@ -195,22 +205,33 @@ const StopsPage = () => {
           display: "flex",
           flexDirection: "flex-column",
           justifyContent: "space-between",
+          position: "relative",
+          width: "100%",
         }}
       >
         <Typography variant="caption" sx={{ fontWeight: 600 }}>
           {title}
         </Typography>
-        <Typography variant="body2" sx={{ fontWeight: 500, fontSize: "0.7rem" }}>
-          {stop.longitude}, {stop.latitude}
-        </Typography>
+
+        <IconButton
+          style={{ position: "absolute", top: -10, right: 0, color: "#f8148a" }}
+          onClick={() =>
+            window.open(
+              `https://www.google.com/maps?q=${stop.latitude},${stop.longitude}`
+            )
+          }
+        >
+          <PlaceRounded />
+        </IconButton>
       </Stack>
     );
 
     const actions = (
-      <Button variant="outlined" style={{ height: "25px", width: "66.92px" }}>
+      <Button variant="outlined" style={{ height: "25px" }}>
         Edit Stop
       </Button>
     );
+
     return (
       <MediaCard
         key={index}
@@ -223,65 +244,61 @@ const StopsPage = () => {
   });
 
   return (
-    <Stack direction="row" spacing={2}>
-      <Grid container spacing={4} style={{ width: "800px" }}>
-        {stopsContent.map((stopContent) => {
-          return (
-            <Grid item xs={4}>
-              {stopContent}
-            </Grid>
-          );
-        })}
+    <div style={{ display: "flex", width: "100%", flexDirection: "column" }}>
+      <Typography variant="h6" align="left" style={{ marginBottom: "2rem" }}>
+        VEHICLES
+      </Typography>
+
+      <Stack direction="column" spacing={2}>
         <Grid item xs={4} display="flex" justifyContent="center" alignItems="center">
-          <img
-            src={addIconImage}
-            alt=""
-            style={{ height: "70px", cursor: "pointer" }}
-            className="image-with-hover-effect"
+          <Button
             onClick={() => {
               setOpenModal(true);
             }}
-          />
-          <Typography>Add Stop</Typography>
-        </Grid>
-      </Grid>
-
-      <Modal
-        open={openModal}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Stack sx={style}>
-          <FormControl
-            variant="standard"
-            spacing={1}
-            style={{ mt: 1 }}
-            className="parent"
           >
-            <InputLabel
+            <AddRounded />
+            &nbsp; Add Stop
+          </Button>
+        </Grid>
+
+        <Grid container spacing={4} style={{ width: "800px", margin: "auto" }}>
+          {stopsContent.map((stopContent) => {
+            return (
+              <Grid item xs={4}>
+                {stopContent}
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Stack>
+
+      <Dialog open={openModal} onClose={handleClose}>
+        <DialogTitle>Add Stop</DialogTitle>
+        <DialogContent>
+          <Stack>
+            <Typography
               style={{ position: "relative", mt: 5 }}
               shrink
               htmlFor="bootstrap-input"
             >
               Stop Name
-            </InputLabel>
-            <BootstrapInput
-              key={1}
+            </Typography>
+            <TextField
+              variant="filled"
               value={newStop.name}
               onChange={(event) => {
                 updateNewStopField("name", event.target.value);
               }}
-              id="bootstrap-input"
             />
-            <InputLabel
+            <Typography
               style={{ position: "relative", mt: 5 }}
               shrink
               htmlFor="bootstrap-input"
             >
               Latitude
-            </InputLabel>
-            <BootstrapInput
+            </Typography>
+            <TextField
+              variant="filled"
               value={newStop.latitude}
               key={2}
               onChange={(event) => {
@@ -289,10 +306,11 @@ const StopsPage = () => {
               }}
               id="bootstrap-input"
             />
-            <InputLabel style={{ position: "relative" }} shrink htmlFor="bootstrap-input">
+            <Typography style={{ position: "relative" }} shrink htmlFor="bootstrap-input">
               Longitude
-            </InputLabel>
-            <BootstrapInput
+            </Typography>
+            <TextField
+              variant="filled"
               value={newStop.longitude}
               key={3}
               onChange={(event) => {
@@ -325,11 +343,12 @@ const StopsPage = () => {
                   />
                 </InputLabel>
                 {checked && (
-                  <BootstrapInput
+                  <TextField
+                    variant="filled"
                     key={4}
-                    value={newStop.imageUrl}
+                    value={newStop?.imageUrl || ""}
                     onChange={(event) => {
-                      updateNewStopField("image", event.target.value);
+                      updateNewStopField("imageUrl", event.target.value);
                     }}
                     id="bootstrap-input"
                   />
@@ -345,13 +364,13 @@ const StopsPage = () => {
                 Add Stop
               </Button>
             </Box>
-          </FormControl>
-          {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
           </Typography> */}
-        </Stack>
-      </Modal>
-    </Stack>
+          </Stack>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 export default StopsPage;

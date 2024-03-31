@@ -14,7 +14,6 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          fontSize: "0.5rem",
           borderRadius: "5rem",
           backgroundColor: "#387ADF",
           color: "white",

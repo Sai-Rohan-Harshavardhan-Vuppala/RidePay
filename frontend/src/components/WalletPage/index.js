@@ -154,7 +154,9 @@ const SchedulePage = () => {
           </Paper>
         </div>
 
-        <Typography style={{ marginTop: "1rem" }}>Increase money in wallet?</Typography>
+        <Typography style={{ marginTop: "1rem", marginBottom: "0.5rem" }}>
+          Need more money in wallet?
+        </Typography>
         <div>
           <Button onClick={() => setOpenAddToWallet(true)}>
             <AddRounded />
