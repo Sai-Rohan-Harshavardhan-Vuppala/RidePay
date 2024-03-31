@@ -85,6 +85,7 @@ const login = catchAsync(async (req, res, next) => {
     expires: new Date(Date.now() + JWT_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000),
     httpOnly: true,
     secure: NODE_ENV === "production",
+    sameSite: "None",
   });
 
   res.status(200).json({ message: "Login successful!", user });
@@ -95,6 +96,7 @@ const logout = catchAsync(async (req, res) => {
     expires: new Date(0),
     httpOnly: true,
     secure: NODE_ENV === "production",
+    sameSite: "None",
   });
 
   res.send({ message: "Logout successful" });
