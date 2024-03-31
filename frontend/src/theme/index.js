@@ -59,7 +59,6 @@ const theme = createTheme({
         root: {
           borderRadius: "0px",
           backgroundColor: "transparent",
-          color: "transparent",
           "&:hover .MuiOutlinedInput-notchedOutline": {
             borderColor: "black", // Hover color for border
           },

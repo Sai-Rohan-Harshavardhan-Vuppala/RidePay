@@ -10,5 +10,6 @@ const rideSchema = new mongoose.Schema({
     required: [true, "Provide the transaction id of the payment"],
   },
 });
+
 const Ride = mongoose.model("Ride", rideSchema);
 module.exports = Ride;

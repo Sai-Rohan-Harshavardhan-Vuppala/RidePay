@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import VehiclesPage from "./components/VehiclesPage";
 import StopsPage from "./components/StopsPage";
 import ProfilePage from "./components/ProfilePage";
+import RoutesPage from "./components/RoutesPage";
 import SchedulePage from "./components/SchedulePage";
 import WalletPage from "./components/WalletPage";
 import TransactionPage from "./components/TransactionPage";
@@ -36,9 +37,8 @@ const routes = (role) => {
         { path: "/vehicles", element: <VehiclesPage /> },
         { path: "/stops", element: <StopsPage /> },
         { path: "/profile", element: <ProfilePage /> },
+        { path: "/routes", element: <RoutesPage /> },
         { path: "/schedule", element: <SchedulePage /> },
-        { path: "/stops", element: <SchedulePage /> },
-        { path: "/routes", element: <SchedulePage /> },
         { path: "/faculty-stats", element: <SchedulePage /> },
         { path: "/404", element: <Page404 /> },
         { path: "*", element: <Navigate to="/" redirect /> },

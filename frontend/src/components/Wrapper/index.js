@@ -29,6 +29,8 @@ import {
   NotificationsRounded,
   Person,
   PersonOutline,
+  RouteOutlined,
+  RouteRounded,
 } from "@mui/icons-material";
 import { Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import io from "socket.io-client";
@@ -78,6 +80,13 @@ const adminNavList = [
     color: "blue",
     link: "/schedule",
     label: "Transport Schedule",
+  },
+  {
+    icon: RouteOutlined,
+    hoverIcon: RouteRounded,
+    color: "blue",
+    link: "/routes",
+    label: "Routes",
   },
   {
     icon: AddLocationOutlined,
