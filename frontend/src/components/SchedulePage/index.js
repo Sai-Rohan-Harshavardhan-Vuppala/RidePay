@@ -20,6 +20,7 @@ import {
   GET_ALL_ROUTES_ROUTE,
   GET_ALL_VEHICLES,
   ADD_SCHEDULE_ROUTE,
+  GET_SCHEDULE_ROUTE,
 } from "../../constants";
 import axios from "axios";
 
@@ -177,7 +178,20 @@ const SchedulePage = () => {
     setOpen(false);
   };
 
-  const fetchAllTrips = () => {};
+  const fetchSchedule = () => {
+    axios
+      .get(GET_SCHEDULE_ROUTE, { withCredentials: true })
+      .then((res) => {
+        console.log({ res });
+      })
+      .catch((err) => {
+        console.log({ err });
+      });
+  };
+
+  useEffect(() => {
+    fetchSchedule();
+  }, []);
 
   return (
     <div style={{ display: "flex", width: "100%", flexDirection: "column" }}>
@@ -195,7 +209,7 @@ const SchedulePage = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add Schedule</DialogTitle>
         <DialogContent>
-          <AddSchedule handleClose={handleClose} refetch={fetchAllTrips} />
+          <AddSchedule handleClose={handleClose} refetch={fetchSchedule} />
         </DialogContent>
       </Dialog>
     </div>

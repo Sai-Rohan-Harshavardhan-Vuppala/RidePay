@@ -12,6 +12,15 @@ exports.getAllTrips = catchAsync(async (req, res, next) => {
   res.send(allTrips);
 });
 
+exports.getSchedule = catchAsync(async (req, res, next) => {
+  const activeTrips = await Trip.find({ active: true }).populate([
+    { path: "route", populate: { path: "stops.stop" } },
+    { path: "vehicle" },
+  ]);
+
+  res.send(activeTrips);
+});
+
 exports.createTripsFromSchedule = catchAsync(async (req, res, next) => {
   const { startDate, schedule } = req.body;
 
