@@ -4,5 +4,6 @@ const userNotificationController = require("../controllers/userNotificationContr
 const router = express.Router();
 
 router.post("/", userNotificationController.createUserNotification);
+router.post("/markseen",userNotificationController.markSeenNotifications);
 
 module.exports = router;

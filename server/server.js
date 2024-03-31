@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const http = require("http");
+const { initSocket } = require('./socketManager');
 
 process.on("uncaughtException", (err) => {
   console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
@@ -15,33 +17,29 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 ).replace("<username>", process.env.DATABASE_USER);
 
-console.log("database", DB);
-
 mongoose
   .connect(DB, {
-    // useNewUrlParser: true,
-    // useCreateIndex: true,
-    // useFindAndModify: false,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to MongoDB"));
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Could not connect to MongoDB:", err));
 
 const port = process.env.PORT || 3000;
+const server = http.createServer(app);
+initSocket(server);
 
-const server = app.listen(port, () => {
+server.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
 
 process.on("unhandledRejection", (err) => {
   console.log("UNHANDLED REJECTION! 💥 Shutting down...");
   console.log(err.name, err.message);
-  server.close(() => {
-    process.exit(1);
-  });
+  server.close(() => process.exit(1));
 });
 
 process.on("SIGTERM", () => {
   console.log("👋 SIGTERM RECEIVED. Shutting down gracefully");
-  server.close(() => {
-    console.log("💥 Process terminated!");
-  });
+  server.close(() => console.log("💥 Process terminated!"));
 });

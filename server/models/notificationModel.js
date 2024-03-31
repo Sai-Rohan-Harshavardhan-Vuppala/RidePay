@@ -5,7 +5,11 @@ const notificationSchema = new mongoose.Schema({
     type: String,
     required: [true, "Provide the message displayed in the notification"],
   },
+  timestamp: {
+    type: Date,
+    default: Date.now(),
+  },
   link: { type: String },
 });
-const Notification = mongoose.model("Notification", notificationSchema, collection);
+const Notification = mongoose.model("Notification", notificationSchema);
 module.exports = Notification;
