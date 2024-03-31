@@ -8,6 +8,7 @@ const {
   GOOGLE_CLIENT_SECRET,
   JWT_SECRET,
   JWT_EXPIRES_IN_DAYS,
+  NODE_ENV,
 } = require("../config");
 
 const jwt = require("jsonwebtoken");
@@ -83,7 +84,7 @@ const login = catchAsync(async (req, res, next) => {
   res.cookie("jwt", token, {
     expires: new Date(Date.now() + JWT_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: NODE_ENV === "production",
   });
 
   res.status(200).json({ message: "Login successful!", user });
@@ -93,7 +94,7 @@ const logout = catchAsync(async (req, res) => {
   res.cookie("jwt", "", {
     expires: new Date(0),
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: NODE_ENV === "production",
   });
 
   res.send({ message: "Logout successful" });

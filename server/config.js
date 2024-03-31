@@ -17,6 +17,8 @@ const MONGODB_URI = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 ).replace("<username>", process.env.DATABASE_USER);
 
+const NODE_ENV = process.env.NODE_ENV;
+
 module.exports = {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
@@ -26,4 +28,5 @@ module.exports = {
   CF_CLIENT_SECRET_KEY,
   MONGODB_URI,
   CF_API_VERSION,
+  NODE_ENV,
 };
