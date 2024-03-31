@@ -66,6 +66,10 @@ app.use("/api/v1/transactions", transactionRouter);
 app.use("/api/v1/notification", notifyRouter);
 app.use("/api/v1/route", routeRouter);
 
+app.get("/heartbeat", (req, res, next) => {
+  res.send("I'm alive 🩷!");
+});
+
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

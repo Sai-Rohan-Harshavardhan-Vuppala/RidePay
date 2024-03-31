@@ -36,7 +36,7 @@ exports.getTransaction = catchAsync(async (req, res, next) => {
         req.params.id,
         { status: true },
         { new: true, runValidators: true }
-      );
+      ).populate("user");
 
       await User.findByIdAndUpdate(req.user._id, {
         wallet: {
