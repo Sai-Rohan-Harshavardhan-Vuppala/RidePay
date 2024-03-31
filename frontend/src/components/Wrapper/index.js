@@ -16,6 +16,8 @@ import {
   HomeOutlined,
   HomeRounded,
   MenuRounded,
+  NotificationsOutlined,
+  NotificationsRounded,
   Person,
   PersonOutline,
 } from "@mui/icons-material";
@@ -38,6 +40,18 @@ const navList = [
     label: "Profile",
   },
 ];
+
+const Notifications = () => {
+  const toggleNotifications = () => {};
+
+  return (
+    <div>
+      <IconButton onClick={toggleNotifications}>
+        <NotificationsOutlined />
+      </IconButton>
+    </div>
+  );
+};
 
 const NavMenuElement = ({ item }) => {
   const navigate = useNavigate();
@@ -231,14 +245,16 @@ const Wrapper = () => {
             ))}
           </div>
 
-          <div>
-            <IconButton onClick={logout}>
-              <ExitToApp color="warning" />
-            </IconButton>
-          </div>
+          <Notifications />
+
+          <IconButton onClick={logout}>
+            <ExitToApp color="warning" />
+          </IconButton>
         </nav>
 
-        <div style={{ overflow: "auto", boxSizing: "border-box", padding: "2rem" }}>
+        <div
+          style={{ overflow: "auto", boxSizing: "border-box", padding: "2rem", flex: 1 }}
+        >
           <Outlet />
         </div>
       </div>
@@ -274,7 +290,7 @@ const Wrapper = () => {
           height: "calc(100vh - 4rem)",
           overflow: "auto",
           boxSizing: "border-box",
-          padding: "10px",
+          padding: "2rem",
         }}
       >
         <Outlet />

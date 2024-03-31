@@ -15,6 +15,8 @@ const authRouter = require("./routes/authRoutes");
 const vehicleRouter = require("./routes/vehicleRoutes");
 const paymentRouter = require("./routes/paymentRoutes");
 const userNotificationRouter = require("./routes/userNotificationRoutes");
+const userRouter = require("./routes/userRoutes");
+const fileRouter = require("./routes/fileRoutes");
 
 const app = express();
 
@@ -34,7 +36,6 @@ app.use(helmet());
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: "50kb" }));
-app.use(requestLogger);
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(cookieParser());
 
@@ -45,12 +46,15 @@ app.use(mongoSanitize());
 app.use(xss());
 app.use(compression());
 
+app.use(requestLogger);
 // 3) ROUTES
 // app.use("/", viewRouter);
 app.use("/api/v1/userNotification", userNotificationRouter);
 app.use("/api/v1/vehicle", vehicleRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/payment", paymentRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/file", fileRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
