@@ -1,12 +1,14 @@
-import { AddRounded } from "@mui/icons-material";
+import { AddRounded, ArrowRightAltRounded } from "@mui/icons-material";
 import {
   Button,
   Dialog,
   DialogContent,
   DialogTitle,
+  Divider,
   Fab,
   IconButton,
   MenuItem,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -173,6 +175,7 @@ const AddSchedule = ({ handleClose, refetch }) => {
 
 const SchedulePage = () => {
   const [open, setOpen] = useState(false);
+  const [schedule, setSchedule] = useState(null);
 
   const handleClose = () => {
     setOpen(false);
@@ -183,6 +186,8 @@ const SchedulePage = () => {
       .get(GET_SCHEDULE_ROUTE, { withCredentials: true })
       .then((res) => {
         console.log({ res });
+
+        setSchedule(res.data);
       })
       .catch((err) => {
         console.log({ err });
@@ -212,6 +217,40 @@ const SchedulePage = () => {
           <AddSchedule handleClose={handleClose} refetch={fetchSchedule} />
         </DialogContent>
       </Dialog>
+
+      <div>
+        {schedule?.map((trip, index) => {
+          const route = trip.route;
+          return (
+            <Paper
+              key={"trip-" + index}
+              style={{ padding: "0.5rem 1rem", margin: "1rem auto 0 auto", width: "90%" }}
+            >
+              <Typography style={{ fontSize: "2rem", fontWeight: 600 }}>
+                {route.name}
+              </Typography>
+              <Divider />
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  overflow: "auto",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {route.stops.map(({ stop }, index2) => {
+                  return (
+                    <>
+                      <Typography key={`stop-${index}-${index2}`}>{stop.name}</Typography>
+                      {index2 != route.stops.length - 1 && <ArrowRightAltRounded />}
+                    </>
+                  );
+                })}
+              </div>
+            </Paper>
+          );
+        })}
+      </div>
     </div>
   );
 };
