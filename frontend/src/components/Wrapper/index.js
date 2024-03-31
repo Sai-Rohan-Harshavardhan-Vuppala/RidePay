@@ -71,8 +71,9 @@ const Notifications = ({ user }) => {
     if (user) {
       // console.log(user._id)
       var socket = io("http://localhost:3000", {
-        transports: ["websocket"],query:{
-          userId : user._id
+        transports: ["websocket"],
+        query: {
+          userId: user._id,
         },
       });
 
@@ -80,7 +81,7 @@ const Notifications = ({ user }) => {
 
       // Listen for 'notification' events from the server
       socket.on("notification", (data) => {
-        console.log(data.notifId)
+        console.log(data.notifId);
         fetchAllNotifications();
       });
 
@@ -99,7 +100,7 @@ const Notifications = ({ user }) => {
         setNotifications(res.data);
 
         let count = 0;
-        for (let notification of res.data) { 
+        for (let notification of res.data) {
           if (notification.seen) {
             continue;
           }
@@ -117,25 +118,29 @@ const Notifications = ({ user }) => {
     fetchAllNotifications();
   }, []);
 
-  const ChangeAllToSeen = async ()=>{
-    await axios.post(`http://localhost:3000/api/v1/userNotification/markseen`,{userId:user._id},{
-      withCredentials: true,
-    })
-    .then((res)=>{
-      fetchAllNotifications();
-    })
-  }
+  const ChangeAllToSeen = async () => {
+    await axios
+      .post(
+        `http://localhost:3000/api/v1/userNotification/markseen`,
+        { userId: user._id },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        fetchAllNotifications();
+      });
+  };
 
-
-  const handleToggleNotifications = async(event) => {
+  const handleToggleNotifications = async (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
     // if(anchorEl) { return ;}
-    if(user && user._id){
-      try{
-        console.log("here")
-        ChangeAllToSeen()
-      }catch(error){
-        console.log(`error marking notifications seen`, error)
+    if (user && user._id) {
+      try {
+        console.log("here");
+        ChangeAllToSeen();
+      } catch (error) {
+        console.log(`error marking notifications seen`, error);
       }
     }
   };
@@ -172,11 +177,7 @@ const Notifications = ({ user }) => {
         }}
       >
         {notifications.map((notification) => (
-          <MenuItem
-            key={notification.id}
-          >
-            {notification.notif.message}
-          </MenuItem>
+          <MenuItem key={notification.id}>{notification.notif.message}</MenuItem>
         ))}
       </Menu>
     </div>
@@ -279,7 +280,7 @@ const NavMenu = () => {
 };
 
 const Wrapper = () => {
-  const { user, loading, updateUser, logout } = useUserContext();
+  const { user, loading, logout, fetchUser } = useUserContext();
 
   const navigate = useNavigate();
 
