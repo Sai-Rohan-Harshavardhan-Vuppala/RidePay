@@ -7,6 +7,9 @@ const theme = createTheme({
       contrastText: "#FFFFFF",
     },
   },
+  typography: {
+    fontFamily: "Open Sans",
+  },
   components: {
     MuiButton: {
       styleOverrides: {
@@ -27,7 +30,6 @@ const theme = createTheme({
         },
       },
     },
-
     MuiTableCell: {
       styleOverrides: {
         root: {

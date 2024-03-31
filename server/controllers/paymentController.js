@@ -11,7 +11,7 @@ const createPaymentLink = catchAsync(async (req, res, next) => {
 
   const customer_id = req.user.__id.toString();
   const customer_email = req.user.email;
-  const customer_phone = req.user.phone;
+  const customer_phone = req.user.phNo;
 
   const order = await sdk.pGCreateOrder(
     {

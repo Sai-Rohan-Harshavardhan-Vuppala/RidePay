@@ -7,6 +7,7 @@ const USER_LOGOUT_ROUTE = `${BASE_URL}/api/v1/auth/logout`;
 const LOGIN_STATUS_ROUTE = `${BASE_URL}/api/v1/auth/login-status`;
 const VEHICLE_ROUTE = `${BASE_URL}/api/v1/vehicle/`;
 const STOP_ROUTE = `${BASE_URL}/api/v1/stop/`;
+const USER_UPDATE_ROUTE = `${BASE_URL}/api/v1/user`;
 
 export {
   CLIENT_ID,
@@ -16,4 +17,5 @@ export {
   LOGIN_STATUS_ROUTE,
   VEHICLE_ROUTE,
   STOP_ROUTE,
+  USER_UPDATE_ROUTE,
 };

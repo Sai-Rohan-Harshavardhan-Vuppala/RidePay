@@ -46,7 +46,6 @@ const verifyGoogleToken = async (token) => {
 };
 
 const signToken = (email) => {
-  console.log("token with ", email);
   return jwt.sign({ email }, JWT_SECRET, {
     expiresIn: `${JWT_EXPIRES_IN_DAYS}d`,
   });
@@ -69,8 +68,6 @@ const login = catchAsync(async (req, res, next) => {
   const { email, given_name: firstName, family_name: lastName } = profile;
   user = await User.findOne({ email });
 
-  console.log({ user });
-
   if (!user) {
     user = {
       email,
@@ -78,10 +75,7 @@ const login = catchAsync(async (req, res, next) => {
     };
 
     user = await User.create(user);
-    console.log("New User created! ✅");
   }
-
-  console.log({ user });
 
   // sign and set JWT with email and role
   const token = signToken(user.email);
@@ -114,13 +108,10 @@ const isLoggedIn = catchAsync(async (req, res, next) => {
 
   try {
     const decoded = await verifyJwt(token, JWT_SECRET);
-    console.log({ decoded });
 
     if (!decoded.email) throw "invalid";
 
     const user = await User.findOne({ email: decoded.email });
-
-    console.log({ user });
 
     if (!user) throw "invalid";
 
@@ -132,6 +123,7 @@ const isLoggedIn = catchAsync(async (req, res, next) => {
 });
 
 const getLoginStatus = catchAsync(async (req, res, next) => {
+  console.log({ user: req.user });
   res.send(req.user);
 });
 

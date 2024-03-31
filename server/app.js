@@ -16,6 +16,8 @@ const vehicleRouter = require("./routes/vehicleRoutes");
 const paymentRouter = require("./routes/paymentRoutes");
 const userNotificationRouter = require("./routes/userNotificationRoutes");
 const stopRouter = require("./routes/stopRoutes");
+const userRouter = require("./routes/userRoutes");
+const fileRouter = require("./routes/fileRoutes");
 
 const app = express();
 
@@ -34,9 +36,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(helmet());
 
 // Body parser, reading data from body into req.body
-app.use(express.json({ limit: "50kb" }));
-app.use(requestLogger);
-app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
@@ -52,7 +53,9 @@ app.use("/api/v1/userNotification", userNotificationRouter);
 app.use("/api/v1/vehicle", vehicleRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/payment", paymentRouter);
-app.use("/api/v1/stop", stopRouter)
+app.use("/api/v1/stop", stopRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/file", fileRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
