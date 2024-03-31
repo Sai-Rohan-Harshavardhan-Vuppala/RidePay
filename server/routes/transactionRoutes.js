@@ -4,11 +4,13 @@ const {
   getAllTransactions,
   getTransaction,
 } = require("../controllers/transactionController");
+const { restrictTo } = require("../controllers/authController");
 const router = express.Router();
 
 router.use(isLoggedIn);
-
-router.get("/", getAllTransactions);
 router.get("/:id", getTransaction);
+
+// router.use(restrictTo("admin"));
+router.get("/", getAllTransactions);
 
 module.exports = router;

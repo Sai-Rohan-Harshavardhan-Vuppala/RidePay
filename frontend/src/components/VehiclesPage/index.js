@@ -187,7 +187,7 @@ const VehiclesPage = () => {
   return (
     <div style={{ display: "flex", width: "100%", flexDirection: "column" }}>
       <Typography variant="h6" align="left" style={{ marginBottom: "2rem" }}>
-        VEHICLES
+        VEHICLES PAGE
       </Typography>
 
       <div style={{ display: "flex", justifyContent: "center", margin: "1rem 0" }}>

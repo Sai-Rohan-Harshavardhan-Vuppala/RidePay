@@ -140,11 +140,12 @@ const StopsPage = () => {
           latitude: "",
           longitude: "",
         });
+        setLoading(false);
       })
       .catch((err) => {
         console.log({ err });
+        setLoading(false);
       });
-    setLoading(false);
     // console.log(stops);
   };
 
@@ -245,7 +246,7 @@ const StopsPage = () => {
   return (
     <div style={{ display: "flex", width: "100%", flexDirection: "column" }}>
       <Typography variant="h6" align="left" style={{ marginBottom: "2rem" }}>
-        VEHICLES
+        STOPS PAGE
       </Typography>
 
       <Stack direction="column" spacing={2}>

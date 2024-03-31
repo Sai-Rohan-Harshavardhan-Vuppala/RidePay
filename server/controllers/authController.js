@@ -125,9 +125,18 @@ const isLoggedIn = catchAsync(async (req, res, next) => {
   }
 });
 
+const restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(new AppError("You are not authorized to access this resource. ", 403));
+    }
+    next();
+  };
+};
+
 const getLoginStatus = catchAsync(async (req, res, next) => {
   console.log({ user: req.user });
   res.send(req.user);
 });
 
-module.exports = { logout, isLoggedIn, getLoginStatus, login };
+module.exports = { logout, isLoggedIn, getLoginStatus, login, restrictTo };
