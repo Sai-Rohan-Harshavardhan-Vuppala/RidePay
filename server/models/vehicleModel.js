@@ -12,7 +12,7 @@ const vehicleSchema = mongoose.Schema({
   },
   type: {
     type: String,
-    enums: ["BOV, Bus, Traveller"],
+    enums: ["BOV", "Bus", "Traveller"],
     required: [true, "Provide the type of transport"],
   },
   model: {
@@ -31,7 +31,6 @@ const vehicleSchema = mongoose.Schema({
     type: String,
   },
 });
-
 
 const Vehicle = mongoose.model("Vehicle", vehicleSchema);
 

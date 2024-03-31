@@ -8,6 +8,7 @@ const Grid = require("gridfs-stream");
 const { Readable } = require("stream");
 
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/AppError");
 
 const { MONGODB_URI } = require("../config");
 

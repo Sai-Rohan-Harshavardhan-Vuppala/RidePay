@@ -1,0 +1,15 @@
+.image-with-hover-effect {
+  transition: transform 0.3s ease; /* Add transition for smooth animation */
+}
+
+.image-with-hover-effect:hover {
+  transform: scale(1.1); /* Scale the image to 110% of its original size */
+}
+
+.parent {
+  margin: 20px; /* Set margin for the parent element */
+}
+
+.child {
+  margin: inherit; /* Inherit margin from the parent element */
+}

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 
-import { USER_LOGIN_ROUTE, USER_LOGOUT_ROUTE } from "../constants";
+import { USER_LOGIN_ROUTE, USER_LOGOUT_ROUTE, LOGIN_STATUS_ROUTE } from "../constants";
 
 import axios from "axios";
 
@@ -64,9 +64,32 @@ export const UserProvider = ({ children }) => {
     handleLogout();
   };
 
+  const fetchUser = () => {
+    axios
+      .get(LOGIN_STATUS_ROUTE, { withCredentials: true })
+      .then((res) => {
+        console.log({ res });
+        updateUser(res.data);
+      })
+      .catch((err) => {
+        console.log({ err });
+
+        updateUser(null);
+      });
+  };
+
   return (
     <UserContext.Provider
-      value={{ user, setUser, login, logout, updateUser, loading, updateLoading }}
+      value={{
+        user,
+        setUser,
+        login,
+        logout,
+        updateUser,
+        loading,
+        updateLoading,
+        fetchUser,
+      }}
     >
       {children}
     </UserContext.Provider>

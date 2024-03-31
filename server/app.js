@@ -14,10 +14,13 @@ const requestLogger = require("./utils/requestLogger");
 const authRouter = require("./routes/authRoutes");
 const vehicleRouter = require("./routes/vehicleRoutes");
 const paymentRouter = require("./routes/paymentRoutes");
+
 const userNotificationRouter = require("./routes/userNotificationRoutes");
+const stopRouter = require("./routes/stopRoutes");
 const userRouter = require("./routes/userRoutes");
 const fileRouter = require("./routes/fileRoutes");
 const notifyRouter = require("./routes/notificationRoutes");
+const transactionRouter = require("./routes/transactionRoutes");
 
 const app = express();
 
@@ -54,8 +57,10 @@ app.use("/api/v1/userNotification", userNotificationRouter);
 app.use("/api/v1/vehicle", vehicleRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/payment", paymentRouter);
+app.use("/api/v1/stop", stopRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/file", fileRouter);
+app.use("/api/v1/transactions", transactionRouter);
 app.use("/api/v1/notification", notifyRouter);
 
 app.all("*", (req, res, next) => {

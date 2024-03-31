@@ -14,7 +14,7 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          fontSize: "1rem",
+          fontSize: "0.5rem",
           borderRadius: "5rem",
           backgroundColor: "#387ADF",
           color: "white",
@@ -59,21 +59,21 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "0px",
-          backgroundColor: "#F1DBC3",
-          color: "#B46206",
+          backgroundColor: "transparent",
+          color: "transparent",
           "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#F1DBC3", // Hover color for border
+            borderColor: "black", // Hover color for border
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#F1DBC3", // Border color when focused
+            borderColor: "black", // Border color when focused
           },
         },
         notchedOutline: {
-          borderColor: "#F1DBC3",
+          borderColor: "black",
         },
         input: {
           "&::placeholder": {
-            color: "#C69C6D", // Placeholder text color
+            color: "black", // Placeholder text color
           },
           color: "inherit", // Ensures the text color is inherited from the root
         },

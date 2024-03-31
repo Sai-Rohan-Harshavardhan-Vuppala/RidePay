@@ -13,6 +13,10 @@ import Badge from "@mui/material/Badge";
 
 import logo from "../../assets/images/logo.png";
 import {
+  AccountBalanceWalletOutlined,
+  AccountBalanceWalletRounded,
+  DepartureBoardOutlined,
+  DepartureBoardRounded,
   ExitToApp,
   HomeOutlined,
   HomeRounded,
@@ -32,6 +36,20 @@ const navList = [
     color: "blue",
     link: "/",
     label: "Home",
+  },
+  {
+    icon: DepartureBoardOutlined,
+    hoverIcon: DepartureBoardRounded,
+    color: "blue",
+    link: "/schedule",
+    label: "Transport Schedule",
+  },
+  {
+    icon: AccountBalanceWalletOutlined,
+    hoverIcon: AccountBalanceWalletRounded,
+    color: "blue",
+    link: "/wallet",
+    label: "Wallet",
   },
   {
     icon: PersonOutline,
@@ -268,22 +286,8 @@ const Wrapper = () => {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
 
-  const getLoginStatus = () => {
-    axios
-      .get(LOGIN_STATUS_ROUTE, { withCredentials: true })
-      .then((res) => {
-        console.log({ res });
-        updateUser(res.data);
-      })
-      .catch((err) => {
-        console.log({ err });
-
-        updateUser(null);
-      });
-  };
-
   useEffect(() => {
-    getLoginStatus();
+    fetchUser();
   }, []);
 
   if (loading)
