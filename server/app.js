@@ -22,6 +22,7 @@ const fileRouter = require("./routes/fileRoutes");
 const notifyRouter = require("./routes/notificationRoutes");
 const transactionRouter = require("./routes/transactionRoutes");
 const routeRouter = require("./routes/routeRoutes");
+const tripRouter = require("./routes/tripRoutes");
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.use("/api/v1/file", fileRouter);
 app.use("/api/v1/transactions", transactionRouter);
 app.use("/api/v1/notification", notifyRouter);
 app.use("/api/v1/route", routeRouter);
+app.use("/api/v1/trip", tripRouter);
 
 app.get("/heartbeat", (req, res, next) => {
   res.send("I'm alive 🩷!");

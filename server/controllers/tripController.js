@@ -11,3 +11,22 @@ exports.getAllTrips = catchAsync(async (req, res, next) => {
 
   res.send(allTrips);
 });
+
+exports.createTripsFromSchedule = catchAsync(async (req, res, next) => {
+  const { startDate, schedule } = req.body;
+
+  await Trip.updateMany({ active: true }, { $set: { active: false } });
+
+  await Promise.all(
+    schedule.map(async (trip) => {
+      const newTrip = await Trip.create({
+        route: trip.route,
+        vehicle: trip.vehicle,
+        startDate: new Date(startDate),
+        time: trip.time,
+      });
+    })
+  );
+
+  res.send("Successfully created!");
+});

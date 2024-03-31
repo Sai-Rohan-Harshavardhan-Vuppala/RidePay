@@ -20,6 +20,8 @@ const GET_ALL_TRANSACTIONS_ROUTE = `${BASE_URL}/api/v1/transactions`;
 const ADD_ROUTE_ROUTE = `${BASE_URL}/api/v1/route`;
 const GET_ALL_ROUTES_ROUTE = `${BASE_URL}/api/v1/route`;
 
+const ADD_SCHEDULE_ROUTE = `${BASE_URL}/api/v1/trip/schedule`;
+
 export {
   CLIENT_ID,
   BASE_URL,
@@ -35,4 +37,5 @@ export {
   GET_ALL_VEHICLES,
   ADD_ROUTE_ROUTE,
   GET_ALL_ROUTES_ROUTE,
+  ADD_SCHEDULE_ROUTE,
 };
