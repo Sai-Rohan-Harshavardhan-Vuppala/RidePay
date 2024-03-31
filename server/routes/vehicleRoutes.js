@@ -3,6 +3,6 @@ const vehicleController = require("../controllers/vehicleController");
 
 const router = express.Router();
 
-router.post("/addVehicle", vehicleController.createVehicle);
+router.post("/", vehicleController.createVehicle);
 
 module.exports = router;

@@ -5,15 +5,16 @@ const stopSchema = new mongoose.Schema({
     type: String,
     required: [true, "Provide name of the stop"],
   },
-  location: {
-    latitude: {
-      type: String,
-      required: [true, "Provide latitude of the location"],
-    },
-    longitude: {
-      type: String,
-      required: [true, "Provide longitude of the location"],
-    },
+  imageUrl: {
+    type: String,
+  },
+  latitude: {
+    type: String,
+    required: [true, "Provide latitude of the location"],
+  },
+  longitude: {
+    type: String,
+    required: [true, "Provide longitude of the location"],
   },
 });
 
