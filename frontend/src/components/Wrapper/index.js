@@ -6,7 +6,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { useUserContext } from "../../hooks/UserContext";
 import LoadingPage from "../LoadingPage";
-import { LOGIN_STATUS_ROUTE } from "../../constants";
+import { BASE_URL, LOGIN_STATUS_ROUTE } from "../../constants";
 import LoginPage from "../LoginPage";
 import { useTheme } from "@emotion/react";
 import Badge from "@mui/material/Badge";
@@ -112,7 +112,7 @@ const Notifications = ({ user }) => {
     // Connect to the socket server on component mount
     if (user) {
       // console.log(user._id)
-      var socket = io("http://localhost:3000", {
+      var socket = io(BASE_URL, {
         transports: ["websocket"],
         query: {
           userId: user._id,
@@ -135,7 +135,7 @@ const Notifications = ({ user }) => {
 
   const fetchAllNotifications = async () => {
     axios
-      .get(`http://localhost:3000/api/v1/notification/all`, {
+      .get(`${BASE_URL}/api/v1/notification/all`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -163,7 +163,7 @@ const Notifications = ({ user }) => {
   const ChangeAllToSeen = async () => {
     await axios
       .post(
-        `http://localhost:3000/api/v1/userNotification/markseen`,
+        `${BASE_URL}/api/v1/userNotification/markseen`,
         { userId: user._id },
         {
           withCredentials: true,
@@ -218,7 +218,7 @@ const Notifications = ({ user }) => {
           },
         }}
       >
-        {notifications.map((notification) => (
+        {[...notifications].reverse().map((notification) => (
           <MenuItem key={notification.id}>{notification.notif.message}</MenuItem>
         ))}
       </Menu>

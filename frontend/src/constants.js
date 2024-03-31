@@ -1,7 +1,8 @@
 const CLIENT_ID =
   "1069235369565-o24uv2h2mnupom9rj58tfkjc6kifoatg.apps.googleusercontent.com";
 
-const BASE_URL = "http://localhost:3000";
+// const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://gc-hackathon-2024.onrender.com";
 const USER_LOGIN_ROUTE = `${BASE_URL}/api/v1/auth/login`;
 const USER_LOGOUT_ROUTE = `${BASE_URL}/api/v1/auth/logout`;
 const LOGIN_STATUS_ROUTE = `${BASE_URL}/api/v1/auth/login-status`;

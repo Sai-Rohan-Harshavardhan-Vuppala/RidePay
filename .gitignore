@@ -130,3 +130,7 @@ dist
 .pnp.*
 
 .env
+
+firebase.json
+.firebaserc
+.firebase

@@ -26,7 +26,7 @@ const app = express();
 
 app.enable("trust proxy");
 const corsOptions = {
-  origin: "http://localhost:3001",
+  origin: ["http://localhost:3001","https://gc-hackathon-2024.web.app/"],
   credentials: true,
 };
 
