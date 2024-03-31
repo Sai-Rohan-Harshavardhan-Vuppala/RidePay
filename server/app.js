@@ -17,6 +17,7 @@ const paymentRouter = require("./routes/paymentRoutes");
 const userNotificationRouter = require("./routes/userNotificationRoutes");
 const userRouter = require("./routes/userRoutes");
 const fileRouter = require("./routes/fileRoutes");
+const notifyRouter = require("./routes/notificationRoutes");
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/payment", paymentRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/file", fileRouter);
+app.use("/api/v1/notification", notifyRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

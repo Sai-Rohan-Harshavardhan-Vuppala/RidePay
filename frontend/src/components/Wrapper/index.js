@@ -9,6 +9,7 @@ import LoadingPage from "../LoadingPage";
 import { LOGIN_STATUS_ROUTE } from "../../constants";
 import LoginPage from "../LoginPage";
 import { useTheme } from "@emotion/react";
+import Badge from "@mui/material/Badge";
 
 import logo from "../../assets/images/logo.png";
 import {
@@ -41,14 +42,125 @@ const navList = [
   },
 ];
 
-const Notifications = () => {
-  const toggleNotifications = () => {};
+const Notifications = ({ user }) => {
+  // const [notificationIds, setNotificationIds] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [unseenCount, setUnseenCount] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  useEffect(() => {
+    // Connect to the socket server on component mount
+    if (user) {
+      // console.log(user._id)
+      var socket = io("http://localhost:3000", {
+        transports: ["websocket"],query:{
+          userId : user._id
+        },
+      });
+
+      socket.connect();
+
+      // Listen for 'notification' events from the server
+      socket.on("notification", (data) => {
+        console.log(data.notifId)
+        fetchAllNotifications();
+      });
+
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [user]);
+
+  const fetchAllNotifications = async () => {
+    axios
+      .get(`http://localhost:3000/api/v1/notification/all`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setNotifications(res.data);
+
+        let count = 0;
+        for (let notification of res.data) { 
+          if (notification.seen) {
+            continue;
+          }
+          ++count;
+        }
+        console.log(count);
+        setUnseenCount(count);
+      })
+      .catch((err) => {
+        console.log({ err });
+      });
+  };
+
+  useEffect(() => {
+    fetchAllNotifications();
+  }, []);
+
+  const ChangeAllToSeen = async ()=>{
+    await axios.post(`http://localhost:3000/api/v1/userNotification/markseen`,{userId:user._id},{
+      withCredentials: true,
+    })
+    .then((res)=>{
+      fetchAllNotifications();
+    })
+  }
+
+
+  const handleToggleNotifications = async(event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+    // if(anchorEl) { return ;}
+    if(user && user._id){
+      try{
+        console.log("here")
+        ChangeAllToSeen()
+      }catch(error){
+        console.log(`error marking notifications seen`, error)
+      }
+    }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <div>
-      <IconButton onClick={toggleNotifications}>
-        <NotificationsOutlined />
+      <IconButton onClick={handleToggleNotifications}>
+        <Badge badgeContent={unseenCount} color="secondary">
+          <NotificationsOutlined />
+        </Badge>
       </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        PaperProps={{
+          style: {
+            height: "400px",
+            width: "400px", // Adjust width as needed
+          },
+        }}
+      >
+        {notifications.map((notification) => (
+          <MenuItem
+            key={notification.id}
+          >
+            {notification.notif.message}
+          </MenuItem>
+        ))}
+      </Menu>
     </div>
   );
 };
@@ -151,35 +263,6 @@ const NavMenu = () => {
 const Wrapper = () => {
   const { user, loading, updateUser, logout } = useUserContext();
 
-  useEffect(() => {
-    // Connect to the socket server on component mount
-    if (user) {
-      // console.log(user._id)
-      var socket = io(
-        "http://localhost:3000",
-        { transports: ["websocket"] ,
-        
-          query: {
-            userId: user._id,
-          },
-        },
-      );
-
-      socket.connect();
-
-      // Listen for 'notification' events from the server
-      socket.on("notification", (data) => {
-        console.log("Notification received:", data);
-        // Alert the notification message
-        alert(`Notification received: ${data.message}`);
-      });
-
-      return () => {
-        socket.disconnect();
-      };
-    }
-  }, [user]);
-
   const navigate = useNavigate();
 
   const theme = useTheme();
@@ -245,7 +328,7 @@ const Wrapper = () => {
             ))}
           </div>
 
-          <Notifications />
+          <Notifications user={user} />
 
           <IconButton onClick={logout}>
             <ExitToApp color="warning" />
