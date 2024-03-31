@@ -4,8 +4,13 @@ const routeSchema = new mongoose.Schema({
   stops: {
     type: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Stop",
+        stop: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Stop",
+        },
+        duration: {
+          type: Number,
+        },
       },
     ],
     validate: {
@@ -15,6 +20,10 @@ const routeSchema = new mongoose.Schema({
       message: (props) => `${props.path} must have at least 2 elements`,
     },
   },
+  name: {
+    type: String,
+  },
 });
+
 const Route = mongoose.model("Route", routeSchema);
 module.exports = Route;

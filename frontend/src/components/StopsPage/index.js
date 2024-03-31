@@ -23,9 +23,8 @@ import {
 import axios from "axios";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import LoadingPage from "../LoadingPage";
-import addIconImage from "../../assets/images/add_image.png";
 import "./index.css";
-import { STOP_ROUTE } from "../../constants.js";
+import { STOP_ROUTE, GET_ALL_STOPS_ROUTE } from "../../constants.js";
 import defaultImage from "../../assets/images/stop.jpg";
 import { AddRounded, PlaceRounded } from "@mui/icons-material";
 
@@ -122,7 +121,7 @@ const StopsPage = () => {
   const onModalSubmit = (event) => {
     const imageUrl = newStop.imageUrl === "" ? defaultImage : newStop.imageUrl;
     const updatedNewStop = { ...newStop, imageUrl: null };
-    console.log(updatedNewStop);
+
     // setNewStop(updatedNewStop);
     setOpenModal(false);
     setLoading(true);
@@ -159,7 +158,7 @@ const StopsPage = () => {
 
   const getAllStops = () => {
     axios
-      .get(STOP_ROUTE, { withCredentials: true })
+      .get(GET_ALL_STOPS_ROUTE, { withCredentials: true })
       .then((res) => {
         console.log({ res });
         setStops(res.data);

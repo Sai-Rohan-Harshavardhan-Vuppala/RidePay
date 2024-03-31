@@ -9,6 +9,11 @@ const rideSchema = new mongoose.Schema({
     type: String,
     required: [true, "Provide the transaction id of the payment"],
   },
+  startTime: {
+    type: Date,
+    required: [true, "Must proide time"],
+  },
 });
+
 const Ride = mongoose.model("Ride", rideSchema);
 module.exports = Ride;

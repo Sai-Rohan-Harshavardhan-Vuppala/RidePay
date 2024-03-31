@@ -21,6 +21,7 @@ const userRouter = require("./routes/userRoutes");
 const fileRouter = require("./routes/fileRoutes");
 const notifyRouter = require("./routes/notificationRoutes");
 const transactionRouter = require("./routes/transactionRoutes");
+const routeRouter = require("./routes/routeRoutes");
 
 const app = express();
 
@@ -63,6 +64,11 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/file", fileRouter);
 app.use("/api/v1/transactions", transactionRouter);
 app.use("/api/v1/notification", notifyRouter);
+app.use("/api/v1/route", routeRouter);
+
+app.get("/heartbeat", (req, res, next) => {
+  res.send("I'm alive 🩷!");
+});
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
