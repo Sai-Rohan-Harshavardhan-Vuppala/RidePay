@@ -28,7 +28,7 @@ UPI payment using Cashfree payments
 ![View Targets](./web-app-screenshots/routes-page.png)
 
 ## Schedule Page
-![Add Schedule](./web-app-screenshots/add-schedule.png)
+![Add Schedule](./web-app-screenshots/add-schedule-page)
 
 
 
